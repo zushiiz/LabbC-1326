@@ -16,8 +16,7 @@ def createMinHeap(datafile, k):
                     minHeap.enqueue(book)
             else:
                 minHeap.enqueue(book)
-
-    return
+    return minHeap
 
 def createMaxHeap(datafile):
     maxHeap = PriorityQueue("max")
@@ -34,12 +33,18 @@ def displayMax(heap, k):
     print(f"Leaderboard of Top {k} Books(Max Heap)")
     for i in range(k):
         print(heap.dequeue())
+    print("==================================================")
+    
+def displayMin(heap):
+    print(f"Leaderboard of Top {heap.size()} Books(Min Heap)")
+    for i in range(heap.size()):
+        print(heap.dequeue())
 
 def main():
     k = 10
     maxHeap = createMaxHeap("data1000.csv")
-    minHeap = createMinHeap("data1000.csv")
+    minHeap = createMinHeap("data1000.csv", k)
     displayMax(maxHeap, k)
-    # displayMin(minHeap)
+    displayMin(minHeap)
 
 main()
