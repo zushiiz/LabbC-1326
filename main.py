@@ -4,7 +4,7 @@ Created 2026-11-20
 """
 from heapQueue import PriorityQueue
 from book import Book
-import csv
+import csv, timeit, tracemalloc
 
 def createMinHeap(datafile, k):
     minHeap = PriorityQueue("min")
@@ -36,19 +36,34 @@ def createMaxHeap(datafile):
 def displayMax(heap, k):
     print(f"Leaderboard of Top {k} Books(Max Heap)")
     for i in range(k):
-        print(heap.dequeue())
+        book = heap.dequeue()
+        # print(book)
     print("==================================================")
     
 def displayMin(heap):
     print(f"Leaderboard of Top {heap.size()} Books(Min Heap)")
     for i in range(heap.size()):
-        print(heap.dequeue())
+        book = heap.dequeue()
+        # print(book)
 
 def main():
-    k = 10
+    k = 10000
+
+    print("Insertion in MaxHeap")
+    tracemalloc.start() 
     maxHeap = createMaxHeap("data1000.csv")
+    print(f"Max Heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
+    print(f"Max Heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
+    tracemalloc.stop()
+    print("======================================================")
+
+    print("Insertion in MinHeap")
+    tracemalloc.start()
     minHeap = createMinHeap("data1000.csv", k)
-    displayMax(maxHeap, k)
-    displayMin(minHeap)
+    print(f"Min Heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
+    print(f"Min Heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
+    tracemalloc.stop()    
+    print("======================================================")
+
 
 main()
