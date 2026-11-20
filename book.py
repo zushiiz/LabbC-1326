@@ -7,3 +7,6 @@ class Book():
 
     def __str__(self):
         return f"{self.title}: {self.surname} {self.firstname} (Dwnlds:{self.downloads})"
+
+    def __lt__(self, other):
+        return self.downloads > other.downloads
