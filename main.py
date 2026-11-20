@@ -1,3 +1,7 @@
+"""
+Written by Zixuan Huang (zixuanhu@ug.kth.se), No use of AI
+Created 2026-11-20
+"""
 from heapQueue import PriorityQueue
 from book import Book
 import csv
