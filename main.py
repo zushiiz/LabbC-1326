@@ -34,21 +34,21 @@ def createMaxHeap(datafile):
     return maxHeap
 
 def displayMax(heap, k):
-    print(f"Leaderboard of Top {k} Books(Max Heap)")
+    # print(f"Leaderboard of Top {k} Books(Max Heap)")
     for i in range(k):
         book = heap.dequeue()
         # print(book)
-    print("==================================================")
+    # print("==================================================")
     
 def displayMin(heap):
-    print(f"Leaderboard of Top {heap.size()} Books(Min Heap)")
+    # print(f"Leaderboard of Top {heap.size()} Books(Min Heap)")
     for i in range(heap.size()):
         book = heap.dequeue()
         # print(book)
 
 def enqueueMallocTest(heapType, amountOfData):
     print("======================================================")      
-    print(f"MallocTest: {heapType}-heap")
+    print(f"MallocTest: {heapType}-heap (k={amountOfData})")
     tracemalloc.start() 
     if heapType == "min":
         heap = createMinHeap("data1000.csv", amountOfData)
@@ -60,10 +60,24 @@ def enqueueMallocTest(heapType, amountOfData):
     print("======================================================")    
     return heap
 
-def main():
-    k = 10
+def dequeueMallocTest(heap, amountOfData):
+    print("======================================================")      
+    print(f"MallocTest: {heap.heap_type}-heap (k={amountOfData})")
+    tracemalloc.start() 
+    if heap.heap_type == "min":
+        displayMin(heap)
+    else:
+        displayMax(heap, amountOfData)
+    print(f"{heap.heap_type}-heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
+    print(f"{heap.heap_type}-heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
+    tracemalloc.stop()
+    print("======================================================")    
 
+def main():
+    k = int(input("Data amount (k):"))
     maxHeap = enqueueMallocTest("max", k)
-    minHeap = enqueueMallocTest("min", k)
+    minHeap = enqueueMallocTest("min", k)     
+    dequeueMallocTest(maxHeap, k)
+    dequeueMallocTest(minHeap, k)
 
 main()
