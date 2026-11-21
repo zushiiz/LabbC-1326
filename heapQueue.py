@@ -9,6 +9,10 @@ class PriorityQueue:
         self.heap = []
         self.heap_type = heap_type
 
+    # str method added by author
+    def __str__(self):
+        return f"{self.heap_type}-heap"
+
     def _compare(self, a, b):
         if self.heap_type == "min":
             return a < b
