@@ -22,7 +22,8 @@ def createMinHeap(datafile, k):
                 minHeap.enqueue(book)
     return minHeap
 
-def createMaxHeap(datafile):
+def createMaxHeap(datafile, k):
+    topK = []
     maxHeap = PriorityQueue("max")
     with open(datafile, "r", encoding="utf-8") as file:
         csvFile = csv.reader(file)
@@ -31,53 +32,27 @@ def createMaxHeap(datafile):
             title, surname, firstname, downloads = row
             book = Book(title, surname, firstname, downloads)
             maxHeap.enqueue(book)
-    return maxHeap
-
-def displayMax(heap, k):
-    # print(f"Leaderboard of Top {k} Books(Max Heap)")
     for i in range(k):
-        book = heap.dequeue()
-        # print(book)
-    # print("==================================================")
-    
-def displayMin(heap):
-    # print(f"Leaderboard of Top {heap.size()} Books(Min Heap)")
-    for i in range(heap.size()):
-        book = heap.dequeue()
-        # print(book)
+        topK.append(maxHeap.dequeue())
+    return topK
 
-def enqueueMallocTest(heapType, amountOfData):
+def mallocTest(heapType, amountOfData):
     print("======================================================")      
     print(f"MallocTest: {heapType}-heap (k={amountOfData})")
     tracemalloc.start() 
     if heapType == "min":
-        heap = createMinHeap("data1000.csv", amountOfData)
+        result = createMinHeap("data75000.csv", amountOfData)
     else:
-        heap = createMaxHeap("data1000.csv")
+        result = createMaxHeap("data75000.csv", amountOfData)
     print(f"{heapType}-heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
     print(f"{heapType}-heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
     tracemalloc.stop()
-    print("======================================================")    
-    return heap
+    print("======================================================")
 
-def dequeueMallocTest(heap, amountOfData):
-    print("======================================================")      
-    print(f"MallocTest: {heap.heap_type}-heap (k={amountOfData})")
-    tracemalloc.start() 
-    if heap.heap_type == "min":
-        displayMin(heap)
-    else:
-        displayMax(heap, amountOfData)
-    print(f"{heap.heap_type}-heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
-    print(f"{heap.heap_type}-heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
-    tracemalloc.stop()
-    print("======================================================")    
 
 def main():
     k = int(input("Data amount (k):"))
-    maxHeap = enqueueMallocTest("max", k)
-    minHeap = enqueueMallocTest("min", k)     
-    dequeueMallocTest(maxHeap, k)
-    dequeueMallocTest(minHeap, k)
+    mallocTest("max", k)
+    mallocTest("min", k)
 
 main()
