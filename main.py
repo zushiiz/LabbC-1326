@@ -49,10 +49,24 @@ def mallocTest(heapType, amountOfData):
     tracemalloc.stop()
     print("======================================================")
 
+def timeTest(heapType, amountOfData):
+    print("======================================================")      
+    print(f"Time test: {heapType}-heap (k={amountOfData})")
+    iterations = 50
+    if heapType == "min":
+        linearTime = timeit.timeit(stmt = lambda:createMinHeap("data75000.csv", amountOfData), number = iterations)
+    else:
+        linearTime = timeit.timeit(stmt = lambda:createMaxHeap("data75000.csv", amountOfData), number = iterations)
+    print(f"{heapType}-heap \nTotal time: {round(linearTime, 5)} seconds \nAverage time: {round(linearTime/iterations, 5)} seconds \nIterations:{iterations}")
+    print("======================================================")
+  
 
 def main():
-    k = int(input("Data amount (k):"))
-    mallocTest("max", k)
-    mallocTest("min", k)
+    while(1):
+        k = int(input("Data amount (k):"))
+        mallocTest("max", k)
+        timeTest("max", k)        
+        mallocTest("min", k)
+        timeTest("min", k)
 
 main()
