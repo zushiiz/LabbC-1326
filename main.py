@@ -46,24 +46,24 @@ def displayMin(heap):
         book = heap.dequeue()
         # print(book)
 
-def main():
-    k = 10000
-
-    print("Insertion in MaxHeap")
+def enqueueMallocTest(heapType, amountOfData):
+    print("======================================================")      
+    print(f"MallocTest: {heapType}-heap")
     tracemalloc.start() 
-    maxHeap = createMaxHeap("data1000.csv")
-    print(f"Max Heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
-    print(f"Max Heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
+    if heapType == "min":
+        heap = createMinHeap("data1000.csv", amountOfData)
+    else:
+        heap = createMaxHeap("data1000.csv")
+    print(f"{heapType}-heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
+    print(f"{heapType}-heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
     tracemalloc.stop()
-    print("======================================================")
+    print("======================================================")    
+    return heap
 
-    print("Insertion in MinHeap")
-    tracemalloc.start()
-    minHeap = createMinHeap("data1000.csv", k)
-    print(f"Min Heap Current Memory Usage: {tracemalloc.get_traced_memory()[0]}")
-    print(f"Min Heap Peak Memory Usage: {tracemalloc.get_traced_memory()[1]}")
-    tracemalloc.stop()    
-    print("======================================================")
+def main():
+    k = 10
 
+    maxHeap = enqueueMallocTest("max", k)
+    minHeap = enqueueMallocTest("min", k)
 
 main()
